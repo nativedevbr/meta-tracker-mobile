@@ -1,0 +1,25 @@
+name: iOS CI
+
+on:
+  push:
+    paths:
+      - "ios/**"
+    branches:
+      - main
+  pull_request:
+    paths:
+      - "ios/**"
+    branches:
+      - main
+
+jobs:
+  build_and_test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Copy Secrets.swift
+        run: cp MetaTrackerLib/Sources/Secrets/_Secrets.swift MetaTrackerLib/Sources/Secrets/Secrets.swift
+        working-directory: "ios"
+      - name: Run tests
+        run: fastlane test
+        working-directory: "ios"
